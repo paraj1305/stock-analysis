@@ -7,6 +7,7 @@ charset-normalizer==3.3.2
 colorama==0.4.6
 contourpy==1.2.1
 cycler==0.12.1
+dj-database-url==2.2.0
 Django==5.0.7
 django-widget-tweaks==1.5.0
 et-xmlfile==1.1.0
@@ -37,6 +38,7 @@ sqlparse==0.5.1
 ta==0.11.0
 tenacity==9.0.0
 tqdm==4.66.5
+typing_extensions==4.12.2
 tzdata==2024.1
 urllib3==2.2.2
 webencodings==0.5.1
