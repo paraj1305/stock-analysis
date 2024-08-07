@@ -16,7 +16,7 @@ PERIOD_CHOICES = [
 
 class TickerForm(forms.Form):
     tickers = forms.CharField(
-        label='Enter Ticker Symbols (comma-separated)',
+        label='Enter Stock Symbols',
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. TCS.NS, NBCC.NS'})
     )
     period = forms.ChoiceField(

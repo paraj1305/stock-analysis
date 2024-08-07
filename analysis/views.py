@@ -97,9 +97,36 @@ def stock_price_view(request):
             return render(request, 'analysis/analyze_stock.html', {'form': form, 'stock_data': stock_data, 'company_info': company_info})
     else:
         form = TickerForm()
-        
-        
-    return render(request, 'analysis/analyze_stock.html', {'form': form})
+   
+    stock_data = None
+    company_info = None
+    
+    tickers = {
+        'NIFTY': '^NSEI',
+        'Bank_NIFTY': '^NSEBANK',
+        'SENSEX': '^BSESN'
+    }
+    
+    data = {}
+    for name, ticker in tickers.items():
+        ticker_data = yf.Ticker(ticker).history(period="1d")
+        if not ticker_data.empty:
+            latest_data = ticker_data.iloc[-1]
+            data[name] = {
+                'current_value': latest_data['Close'],
+                'change': latest_data['Close'] - latest_data['Open'],
+                'open': latest_data['Open'],
+                'high': latest_data['High'],
+                'low': latest_data['Low']
+            }
+    context = {
+        'form': form,
+        'stock_data': stock_data,
+        'company_info': company_info,
+        'index_data': data
+    }
+    
+    return render(request, 'analysis/analyze_stock.html', context)
 
 def get_rolling_window_size(period):
     if period == '1d':

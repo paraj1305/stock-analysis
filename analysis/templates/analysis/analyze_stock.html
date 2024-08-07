@@ -1,6 +1,4 @@
-
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,10 +7,122 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1;
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .footer a {
+            color: white;
+            margin: 0 10px;
+        }
+        .footer a:hover {
+            color: #ddd;
+        }
+
+        
+    </style>
 </head>
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Stock Analysis</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+              
+            </ul>
+        </div>
+    </nav>
+    {% if index_data %}
+    <div class="row my-4 mx-2">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-light mb-3">
+                <div class="card-header">
+                    <i class="fas fa-chart-line"></i> NIFTY
+                </div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title">Current:{{ index_data.NIFTY.current_value|floatformat:2 }}</span></h5>
+                    <div class="row">
+                        <div class="col-4">
+                            <p class="card-text"><span class="badge bg-warning text-dark"><i class="fas fa-door-open"></i> Open: {{ index_data.NIFTY.open|floatformat:2 }}</span></p>
+                        </div>
+                        <div class="col-4">
+                            <p class="card-text"><span class="badge bg-success"><i class="fas fa-arrow-up"></i> High: {{ index_data.NIFTY.high|floatformat:2 }}</span></p>
+                        </div>
+                        <div class="col-4">
+                            <p class="card-text"><span class="badge bg-danger"><i class="fas fa-arrow-down"></i> Low: {{ index_data.NIFTY.low|floatformat:2 }}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-light mb-3">
+                <div class="card-header">
+                    <i class="fas fa-chart-line"></i> Bank NIFTY
+                </div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title">Current: {{ index_data.Bank_NIFTY.current_value|floatformat:2 }}</span></h5>
+                    <div class="row">
+                        <div class="col-4">
+                            <p class="card-text"><span class="badge bg-warning text-dark"><i class="fas fa-door-open"></i> Open: {{ index_data.Bank_NIFTY.open|floatformat:2 }}</span></p>
+                        </div>
+                        <div class="col-4">
+                            <p class="card-text"><span class="badge bg-success"><i class="fas fa-arrow-up"></i> High: {{ index_data.Bank_NIFTY.high|floatformat:2 }}</span></p>
+                        </div>
+                        <div class="col-4">
+                            <p class="card-text"><span class="badge bg-danger"><i class="fas fa-arrow-down"></i> Low: {{ index_data.Bank_NIFTY.low|floatformat:2 }}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-light mb-3">
+                <div class="card-header">
+                    <i class="fas fa-chart-line"></i> SENSEX
+                </div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title">Current:{{ index_data.SENSEX.current_value|floatformat:2 }}</span></h5>
+                    <div class="row">
+                        <div class="col-4">
+                            <p class="card-text"><span class="badge bg-warning text-dark"><i class="fas fa-door-open"></i> Open: {{ index_data.SENSEX.open|floatformat:2 }}</span></p>
+                        </div>
+                        <div class="col-4">
+                            <p class="card-text"><span class="badge bg-success"><i class="fas fa-arrow-up"></i> High: {{ index_data.SENSEX.high|floatformat:2 }}</span></p>
+                        </div>
+                        <div class="col-4">
+                            <p class="card-text"><span class="badge bg-danger"><i class="fas fa-arrow-down"></i> Low: {{ index_data.SENSEX.low|floatformat:2 }}</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
 
-        <div class="card  border-secondary my-4 mx-4">
+
+
+        <!-- Your existing content here -->
+
+        <div class="card border-secondary my-2 mx-4">
             <div class="card-header bg-dark text-white">
                 <h3><i class="fas fa-chart-line"></i> Stock Prices and Analysis</h3>
             </div>
@@ -25,7 +135,7 @@
                                 <label for="{{ form.tickers.id_for_label }}">
                                     <i class="fas fa-search-dollar"></i> {{ form.tickers.label_tag }}
                                 </label>
-                                <input type="text" name="{{ form.tickers.name }}" id="{{ form.tickers.id_for_label }}" class="form-control" value="{{ form.tickers.value }}">
+                                <input type="text" name="{{ form.tickers.name }}" id="{{ form.tickers.id_for_label }}" class="form-control" placeholder="e.g. TCS.NS, NBCC.NS">
                             </div>
                         </div>
                         <div class="col-md-4 col-12 mb-3">
@@ -80,7 +190,6 @@
                             </tbody>
                         </table>
                     </div>
-
                 {% endif %}
                 
                 {% if company_info %}
@@ -102,8 +211,6 @@
                             </div>
                         </div>
                         
-                  
-
                         <div class="col-md-4 col-12 mb-3">
                             <div class="card bg-warning text-white">
                                 <div class="card-body d-flex justify-content-between">
@@ -132,14 +239,10 @@
                                 </div>
                             </div>
                         </div>
-                       
-                    </div>
-                    
-                    
                     </div>
                     </div>
-                    </div>
-                    
+        </div>
+
                     <div class="card border-dark my-4 mx-4">
                         <div class="card-header bg-dark text-white">
                             <h4><i class="fas fa-building"></i> {{ info.longName }}</h4>
@@ -241,58 +344,97 @@
                                     </div>
                                 </div>
                             </div>
-                            </div>
-                            </div>
-                            <div class="card bg-light border-dark my-4 mx-4">
-                                <div class="card-header bg-dark text-white">
-                                    <h4><i class="fas fa-building"></i> Info</h4>
-                                </div>
-                                <div class="card-body mr-4">
-                            <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> {{ info.address1 }}, {{ info.address2 }}, {{ info.city }}, {{ info.zip }}, {{ info.country }}</p>
-                            <p><i class="fas fa-globe"></i> <strong>Website:</strong> <a href="{{ info.website }}">{{ info.website }}</a></p>
-                            <p><i class="fas fa-industry"></i> <strong>Industry:</strong> {{ info.industry }}</p>
-                            <p><i class="fas fa-landmark"></i> <strong>Sector:</strong> {{ info.sector }}</p>
-                            <p><i class="fas fa-info-circle"></i> <strong>Business Summary:</strong> {{ info.longBusinessSummary }}</p>
-                            
-                            <h5> Company Officers</h5>
-                            <ul>
-                                {% for officer in info.companyOfficers %}
-                                    <i class="fas fa-user-tie mx-2"></i> {{ officer.name }} - {{ officer.title }}<br>
-                                {% endfor %}
-                            </ul>
-                                </div>
-                                </div>
-                            {% if info.dividends %}
-                            <div class="my-4 mx-4">
-                                <h2><i class="fas fa-hand-holding-usd"></i> Dividend Information</h2>
-                                <table class="table table-striped">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th><i class="fas fa-calendar-alt"></i> Date</th>
-                                            <th><i class="fas fa-coins"></i> Dividends</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for date, dividend in info.dividends.items %}
-                                        <tr class="table-success">
-                                                <td>{{ date|date:"d-m-Y" }}</td>
-
-                                                <td>{{ dividend|floatformat:2}}</td>
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {% endif %}
                         </div>
                     </div>
+            
+                    <div class="card bg-light border-dark my-4 mx-4">
+                        <div class="card-header bg-dark text-white">
+                            <h4><i class="fas fa-building"></i> Info</h4>
+                        </div>
+                        <div class="card-body mr-4">
+                    <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> {{ info.address1 }}, {{ info.address2 }}, {{ info.city }}, {{ info.zip }}, {{ info.country }}</p>
+                    <p><i class="fas fa-globe"></i> <strong>Website:</strong> <a href="{{ info.website }}">{{ info.website }}</a></p>
+                    <p><i class="fas fa-industry"></i> <strong>Industry:</strong> {{ info.industry }}</p>
+                    <p><i class="fas fa-landmark"></i> <strong>Sector:</strong> {{ info.sector }}</p>
+                    <p><i class="fas fa-info-circle"></i> <strong>Business Summary:</strong> {{ info.longBusinessSummary }}</p>
+                    
+                    <h5> Company Officers</h5>
+                    <ul>
+                        {% for officer in info.companyOfficers %}
+                            <i class="fas fa-user-tie mx-2"></i> {{ officer.name }} - {{ officer.title }}<br>
+                        {% endfor %}
+                    </ul>
+                        </div>
+                        </div>
+
+
+
+
+                        {% if info.dividends %}
+                        <div class="my-4 mx-4">
+                            <h2><i class="fas fa-hand-holding-usd"></i> Dividend Information</h2>
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th><i class="fas fa-calendar-alt"></i> Date</th>
+                                        <th><i class="fas fa-coins"></i> Dividends</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for date, dividend in info.dividends.items %}
+                                    <tr class="table-success">
+                                        <td>{{ date|date:"d-m-Y" }}</td>
+                                        <td>{{ dividend|floatformat:2}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="my-4 mx-4">
+                            <h2><i class="fas fa-hand-holding-usd"></i> Dividend Information</h2>
+                            <p>No dividend information available.</p>
+                        </div>
+                    {% endif %}
+                    
+
+
                     {% endfor %}
                 {% endif %}
-         
+            </div>
+        </div>
     </div>
+    
+    <!-- Footer -->
+    <footer class="footer mt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>
+                        <i class="fas fa-envelope"></i> 
+                        <a href="mailto:bhatasanaparaj@gmail.com" class="text-decoration-none">bhatasanaparaj@gmail.com</a>
+                    </p>
+                    <p>
+                        <i class="fab fa-whatsapp"></i> 
+                        <a href="https://wa.me/917202920152" class="text-decoration-none" target="_blank">+91 7202920152</a>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h5>About Us</h5>
+                    <p>We provide comprehensive stock analysis to help you make informed investment decisions.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p>&copy; 2024 Stock Analysis. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
